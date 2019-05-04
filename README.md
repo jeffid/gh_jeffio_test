@@ -6,7 +6,7 @@
 ## 安装
 ```
 #克隆
-git clone  gh_jeffio_test
+git clone git@github.com:jeffid/gh_jeffio_test.git gh_jeffio_test
 cd gh_jeffio_test
 cp .env.example .env
 chmod -R 777 runtime/
@@ -22,6 +22,19 @@ location / {
   }
 }
 ```
+
+线上msyql
+```
+数据库名：jeffio_test_gh_w
+用户：jeffio_test_gh_w
+密码：hBxjbGMEEcjLJEJr
+```
+
+## 公号开发注意
+### 配置
+* URL如`http://jeffio-test.gh.waacoo.cc`,http开头,不能有路径
+* TOKEN3至32位字符
+
 
 
 ## 在线手册
