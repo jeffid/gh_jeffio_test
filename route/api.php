@@ -9,28 +9,12 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
+//Route::get('think', function () {
+//    return 'hello,ThinkPHP5!';
+//});
 
-Route::get('hello/:name', 'index/hello');
+Route::get('/', 'api/WxGh/index');
 
-
-
-
-/*Route::group(function () {
-报错
-    Route::get('hi', function () {
-        return env('HI');
-    });
-
-})->prefix('/t/');*/
-
-Route::get('/t/env', function () {
-//    \think\Log::DEBUG('haha');
-    Log::write('测试日志信息，这是警告级别，并且实时写入','notice');
-    return env('APP_NAME');
-});
 
 
 return [];

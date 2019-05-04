@@ -15,13 +15,13 @@
 
 return [
     // 应用名称
-    'app_name'               => '',
+    'app_name'               => env('APP_NAME'),
     // 应用地址
-    'app_host'               => '',
+    'app_host'               => env('APP_HOST'),
     // 应用调试模式
-    'app_debug'              => true, //
+    'app_debug'              => env('APP_DEBUG'), //
     // 应用Trace
-    'app_trace'              => true, //
+    'app_trace'              => env('APP_TRACE'), //
     // 是否支持多模块
     'app_multi_module'       => true,
     // 入口自动绑定模块
@@ -101,7 +101,7 @@ return [
     // 合并路由规则
     'route_rule_merge'       => false,
     // 路由是否完全匹配
-    'route_complete_match'   => false,
+    'route_complete_match'   => true, //
     // 使用注解路由
     'route_annotation'       => false,
     // 域名根，如thinkphp.cn
