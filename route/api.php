@@ -13,9 +13,12 @@
 //    return 'hello,ThinkPHP5!';
 //});
 
-Route::get('/', 'api/WxGh/index');
 
-
+Route::group('', function () {
+    
+    Route::get('/', 'WxGh/index');
+    
+})->prefix('api/')->middleware(['loginput']);
 
 return [];
 

@@ -33,6 +33,7 @@ location / {
 ## 公号开发注意
 ### 配置
 * URL如`http://jeffio-test.gh.waacoo.cc`,http开头,不能有路径
+* URL也可以是`http://jeffio-test.gh.waacoo.cc/index.php`,`index.php` 不能改成其它文件名
 * TOKEN3至32位字符
 
 

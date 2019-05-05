@@ -19,9 +19,10 @@ class WxGh extends Controller
         $user = $app->user;
     
         $server->push(function($message) use ($user) {
-            $fromUser = $user->get($message['FromUserName']);
-        
-            return "Hi, {$fromUser->nickname}! 欢迎关注 Jeffio!";
+/*            $fromUser = $user->get($message['FromUserName']);
+            return "Hi, {$fromUser->nickname}! 欢迎关注 Jeffio!";*/
+            
+            return "Hi, 欢迎关注 Jeffio!";
         });
     
         $server->serve()->send();

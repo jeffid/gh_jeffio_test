@@ -16,8 +16,6 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 
 
-
-
 /*Route::group(function () {
 报错
     Route::get('hi', function () {
@@ -26,11 +24,19 @@ Route::get('hello/:name', 'index/hello');
 
 })->prefix('/t/');*/
 
-Route::get('/t/env', function () {
+Route::group('/t/', function () {
+    
+    Route::any('hi', function () {
+        return 'hello~';
+    });
+    
+    Route::get('env', function () {
 //    \think\Log::DEBUG('haha');
-    Log::write('测试日志信息，这是警告级别，并且实时写入','notice');
-    return env('APP_NAME');
-});
+        Log::write('测试日志信息，这是警告级别，并且实时写入', 'notice');
+        return env('APP_NAME');
+    });
+    
+})->middleware(['loginput']);
 
 
 return [];
