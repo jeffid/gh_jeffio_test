@@ -40,21 +40,3 @@ Route::group('/t/', function () {
 
 
 return [];
-
-/*
-
-广州天气
-http://wx.weather.com.cn/mweather/101280101.shtml?from=singlemessage&isappinstalled=0#1
-坐车网
-http://zuoche.com/touch/
-广铁状态
-http://ydyc.gzmtr.cn:13050/indexNotBrowser.html#/mobile?s=wechat&from=singlemessage&isappinstalled=0
- * */
-
-//Route::group('blog', function () {
-//    Route::get(':id', 'read');
-//    Route::post(':id', 'update');
-//    Route::delete(':id', 'delete');
-//
-//})->prefix('blog/');
-

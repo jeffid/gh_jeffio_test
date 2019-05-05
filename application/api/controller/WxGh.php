@@ -16,6 +16,7 @@ class WxGh extends Controller
     public static $gh = null;
     public static $server = null;
     public static $user = null;
+    public static $msg = [];
     
     public function __construct(App $app = null)
     {
@@ -26,6 +27,7 @@ class WxGh extends Controller
         
         self::$server = self::$gh->server;
         self::$user = self::$gh->user;
+        self::$msg = self::$server->getMessage();
     }
     
     public function index()
@@ -34,7 +36,7 @@ class WxGh extends Controller
 //            \Log::write($msg);
 //            dump($msg);
 
-//            return "Hi, 欢迎关注 Jeffio!";
+//            return 'Hi, 欢迎关注 Jeffio!';
             switch ($msg['MsgType']) {
 //                case 'event':
 //                    return '收到事件消息';
@@ -65,6 +67,8 @@ class WxGh extends Controller
 位置信息: $msg->Label
 地图缩放大小: $msg->Scale
 default;
+                    \Log::write($location);
+                    
                     return new Text($location);
                     break;
                 
@@ -93,4 +97,64 @@ default;
         self::$server->serve()->send();
     }
     
+    /**
+     * 创建菜单文档(https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013)
+     */
+    public function setMenu()
+    {
+        $buttons = [
+            [
+                'name' => '消遣',
+                'sub_button' => [
+                    [
+                        'type' => 'click',
+                        'name' => '头条',
+                        'key' => 'toutiao'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '热映',
+                        'key' => 'reying'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '段子',
+                        'key' => 'duanzi'
+                    ],
+                    [
+                        'type' => 'click',
+                        'name' => '言论',
+                        'key' => 'yanlun'
+                    ],
+                ],
+            ],
+            [
+                'name' => '实用',
+                'sub_button' => [
+                    [
+                        'type' => 'view',
+                        'name' => '天气',
+                        'url' => 'http://wx.weather.com.cn/mweather/101281601.shtml#1'
+                    ],
+                    [
+                        'type' => 'view',
+                        'name' => '地铁图',
+                        'url' => 'http://zuoche.com/touch/metromap.jspx?cityname=%E4%B8%9C%E8%8E%9E'
+                    ],
+                    [
+                        'type' => 'scancode_waitmsg',
+                        'name' => '瞄一瞄',
+                        'key' => 'scancode'
+                    ],
+                ],
+            ],
+        ];
+        
+        return json((array)self::$gh->menu->create($buttons));
+    }
+    
+    public function getMenu()
+    {
+        return json((array)self::$gh->menu->current());
+    }
 }

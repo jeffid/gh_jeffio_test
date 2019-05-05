@@ -36,7 +36,10 @@ location / {
 * URL也可以是`http://jeffio-test.gh.waacoo.cc/index.php`,`index.php` 不能改成其它文件名
 * TOKEN3至32位字符
 
-
+## 使用到的第三方接口或服务
+* 坐车网(http://zuoche.com/touch/metromap.jspx?cityname=%E4%B8%9C%E8%8E%9E)
+* 中国天气网微信版(http://wx.weather.com.cn/mweather/101281601.shtml#1)
+* 
 
 ## 在线手册
 

@@ -16,7 +16,15 @@
 
 Route::group('', function () {
     
-    Route::rule('/', 'WxGh/index');
+    Route::post('/', 'WxGh/index');
+    
+    Route::group('/gh/', function () {
+        
+        Route::get('menu', 'WxGh/getMenu');
+        Route::post('menu', 'WxGh/setMenu');
+        
+    });
+    
     
 })->prefix('api/')->middleware(['loginput']);
 
