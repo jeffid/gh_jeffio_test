@@ -16,7 +16,7 @@
 
 Route::group('', function () {
     
-    Route::get('/', 'WxGh/index');
+    Route::rule('/', 'WxGh/index');
     
 })->prefix('api/')->middleware(['loginput']);
 
