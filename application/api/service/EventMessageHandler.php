@@ -36,10 +36,10 @@ class EventMessageHandler implements EventHandlerInterface
                             if ($item['type'] == 'video' && $count < 5) {
                                 $count++;
                                 $txt .= <<<txt
- {$item['data']['title']}
+{$count}.
+ 【{$item['data']['title']}】
 —— {$item['data']['slogan']}
 （{$item['data']['webUrl']['raw']}）
---------
 
 txt;
                             }
@@ -59,7 +59,7 @@ txt;
                             $index = $idx + 1;
                             $txt .= <<<txt
 {$index}.
-片名: {$item['tCn']}
+片名: 【{$item['tCn']}】
 导演: {$item['dN']}
 演员: {$item['actors']}
 评分: {$item['r']}
