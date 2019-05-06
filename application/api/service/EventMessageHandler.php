@@ -37,7 +37,7 @@ class EventMessageHandler implements EventHandlerInterface
                                 $count++;
                                 $txt .= <<<txt
 {$count}.
- 【{$item['data']['title']}】
+【{$item['data']['title']}】
 —— {$item['data']['slogan']}
 （{$item['data']['webUrl']['raw']}）
 
