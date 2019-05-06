@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: WAXKI
- * Date: 2019/5/5
- * Time: 17:48
- */
 
 namespace app\api\service;
 
@@ -24,7 +18,7 @@ class EventMessageHandler implements EventHandlerInterface
      */
     public function handle($msg = [])
     {
-        \Log::write('EventMessageHandler');
+//        \Log::write('EventMessageHandler');
         
         switch ($msg['Event']) {
             //注意`CLICK`和`VIEW`是大写
@@ -33,18 +27,56 @@ class EventMessageHandler implements EventHandlerInterface
                     case 'toutiao':
                         return;
                     
+                    case 'kaiyan':
+                        $ky = $this->getKaiyan();
+//                        \Log::write($ky);
+                        $txt = '';
+                        $count = 0;
+                        foreach ($ky['itemList'] as $item) {
+                            if ($item['type'] == 'video' && $count < 5) {
+                                $count++;
+                                $txt .= <<<txt
+ {$item['data']['title']}
+—— {$item['data']['slogan']}
+（{$item['data']['webUrl']['raw']}）
+--------
+
+txt;
+                            }
+                        }
+                        $txt .= '——by开眼';
+                        return new Text($txt);
+                    
                     case 'reying':
-                        return;
+                        $ry = $this->getReying();
+//                        \Log::write($ry['ms']);
+                        
+                        $txt = '';
+                        foreach ($ry['ms'] as $idx => $item) {
+                            //只要前5条
+                            if ($idx >= 5) break;
+                            
+                            $index = $idx + 1;
+                            $txt .= <<<txt
+{$index}.
+片名: {$item['tCn']}
+导演: {$item['dN']}
+演员: {$item['actors']}
+评分: {$item['r']}
+看点: {$item['commonSpecial']}
+
+txt;
+                        }
+                        $txt .= '——by时光网';
+//                        \Log::write($txt);
+                        
+                        return new Text($txt);
                     
                     case 'duanzi':
-                        if (!($duanzi = cache('duanzi'))) {
-                            //缓存没有时就从api获取新内容
-                            $duanzi = $this->getDuanzi();
-                            cache('duanzi', $duanzi, 120);
-                        }
+                        $duanzi = $this->getDuanzi();
                         $idx = random_int(0, 9);
 //                        \Log::write($duanzi);
-                        return new Text($duanzi['data'][$idx]['content']);
+                        return new Text($duanzi['data'][$idx]['content'] ?? '哈哈哈哈~冷笑话');
                     
                     case 'yanlun':
                         $yanlun = $this->getYanlun();
@@ -110,6 +142,10 @@ txt;
         }
     }
     
+    /**
+     * 一言
+     * @return mixed
+     */
     public function getYanlun()
     {
         $response = WxGh::$guzzleClient->get(
@@ -122,36 +158,71 @@ txt;
         return json_decode((string)$response->getBody());
     }
     
+    /**
+     * 段子
+     * @return mixed
+     */
     public function getDuanzi()
     {
-        $response = WxGh::$guzzleClient->get(
-            'https://www.mxnzp.com/api/jokes/list/random',
-            [
-                'query' => [],
-                'timeout' => 3.14 //设置请求超时时间
-            ]);
+        if (!($duanzi = cache('duanzi'))) {
+            //缓存没有时就从api获取新内容
+            $response = WxGh::$guzzleClient->get(
+                'https://www.mxnzp.com/api/jokes/list/random',
+                [
+                    'query' => [],
+                    'timeout' => 4 //设置请求超时时间
+                ]);
+            
+            $duanzi = json_decode((string)$response->getBody(), true);
+            cache('duanzi', $duanzi, 120);
+        }
         
-        return json_decode((string)$response->getBody(), true);
+        return $duanzi;
     }
     
-    /*
-     $client = new GuzzleHttp\Client();
-//普通表单`application/x-www-form-urlencoded`的POST请求
-$response = $client->post('http://httpbin.org/post', [
-    'form_params' => [        //参数组
-        'a' => 'aaa',
-        'b' => 'bbb',
-        'nested_field' => [		//参数允许嵌套多层
-            'A' => 'AAA',
-            'B' => 'BBB',
-        ]
-    ],
-]);
-      
-        $body = $response->getBody(); //获取响应体，对象
-        $bodyStr = (string)$body; //对象转字串
-        echo $bodyStr;
-
-     * */
+    /**
+     * 时光网热映电影
+     * @return mixed
+     */
+    public function getReying()
+    {
+        if (!($reying = cache('reying'))) {
+            //缓存没有时就从api获取新内容
+            $response = WxGh::$guzzleClient->get(
+                'https://api-m.mtime.cn/Showtime/LocationMovies.api',
+                [
+                    'query' => [
+                        'locationId' => 290
+                    ],
+                    'timeout' => 4
+                ]);
+            $reying = json_decode((string)$response->getBody(), true);
+            cache('reying', $reying, 43200); //12*3600,缓存有效时间12小时
+        }
+        
+        return $reying;
+    }
+    
+    /**
+     * 开眼api数据
+     * @return mixed
+     */
+    public function getKaiyan()
+    {
+        if (!($kaiyan = cache('kaiyan'))) {
+            //缓存没有时就从api获取新内容
+            $response = WxGh::$guzzleClient->get(
+                'http://baobab.kaiyanapp.com/api/v4/tabs/selected',
+                [
+                    'query' => [],
+                    'timeout' => 4
+                ]);
+            
+            $kaiyan = json_decode((string)$response->getBody(), true);
+            cache('kaiyan', $kaiyan, 43200);
+        }
+        
+        return $kaiyan;
+    }
     
 }

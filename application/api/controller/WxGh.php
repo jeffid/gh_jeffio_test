@@ -5,10 +5,6 @@ namespace app\api\controller;
 use app\api\service\AllMessageHandler;
 use app\api\service\EventMessageHandler;
 use EasyWeChat\Kernel\Messages\Message;
-use EasyWeChat\Kernel\Messages\Text;
-use EasyWeChat\Kernel\Messages\Image;
-use EasyWeChat\Kernel\Messages\Video;
-use EasyWeChat\Kernel\Messages\Voice;
 use GuzzleHttp\Client;
 use think\App;
 use think\Controller;
@@ -56,9 +52,14 @@ class WxGh extends Controller
                 'sub_button' => [
                     [
                         'type' => 'click',
-                        'name' => '头条',
-                        'key' => 'toutiao'
+                        'name' => '开眼',
+                        'key' => 'kaiyan'
                     ],
+//                    [
+//                        'type' => 'click',
+//                        'name' => '头条',
+//                        'key' => 'toutiao'
+//                    ],
                     [
                         'type' => 'click',
                         'name' => '热映',

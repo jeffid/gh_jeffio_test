@@ -15,15 +15,6 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
-
-/*Route::group(function () {
-报错
-    Route::get('hi', function () {
-        return env('HI');
-    });
-
-})->prefix('/t/');*/
-
 Route::group('/t/', function () {
     
     Route::any('hi', function () {

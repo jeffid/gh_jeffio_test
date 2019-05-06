@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: WAXKI
- * Date: 2019/5/5
- * Time: 17:48
- */
 
 namespace app\api\service;
 
 use app\api\controller\WxGh;
 use \EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Messages\Text;
+use EasyWeChat\Kernel\Messages\Image;
+use EasyWeChat\Kernel\Messages\Video;
+use EasyWeChat\Kernel\Messages\Voice;
 
 class AllMessageHandler implements EventHandlerInterface
 {
@@ -53,7 +50,7 @@ class AllMessageHandler implements EventHandlerInterface
 default;
                 \Log::write($location);
                 
-                return new Text($location);
+                return new Text($location); //微信方面不支持回复消息
                 break;
             
             case 'link':
@@ -62,7 +59,7 @@ default;
 消息描述: $msg->Description
 消息链接: $msg->Url
 default;
-                return new Text($link);
+                return new Text($link); //微信方面不支持回复消息
                 break;
             
             case 'file':
